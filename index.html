@@ -25,7 +25,6 @@
             scroll-behavior: smooth;
         }
 
-        /* FONDO SECUNDARIO: Se visualiza al hacer scroll */
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -115,6 +114,23 @@
             transition: color 0.3s;
         }
         nav a:hover { color: var(--primary); }
+
+        /* Botón de Menú Móvil (Hamburguesa) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+        }
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
         
@@ -464,8 +480,34 @@
             animation: pulse-glow-green 2s infinite;
         }
 
+        /* --- MEDIA QUERIES MEJORADOS (MÓVIL DINÁMICO) --- */
         @media (max-width: 768px) {
-            nav ul { display: none; }
+            .menu-toggle { display: flex; }
+            
+            nav ul {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0a0a0a;
+                padding: 100px 30px;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                border-right: 2px solid var(--primary);
+                z-index: 1000;
+                gap: 25px;
+            }
+
+            nav ul.active { left: 0; }
+            nav a { font-size: 18px; display: block; }
+
+            /* Animación Hamburguesa */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
             .hero-section h1 { font-size: 38px; }
             .hero-section .about-box { padding: 25px; }
             .cart-sidebar { width: 100%; max-width: 100%; right: -100%; }
@@ -484,12 +526,17 @@
             <img src="https://lh3.googleusercontent.com/d/12WKENsjTYNb09wddqd7Agt_yU7NbgYMu" alt="Angel Gym Logo">
         </div>
         <nav>
-            <ul>
-                <li><a href="#bienvenida">Inicio</a></li>
-                <li><a href="#suscripciones">Membresías</a></li>
-                <li><a href="#suplementos">Suplementos</a></li>
-                <li><a href="#ropa">Ropa</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+            <div class="menu-toggle" id="mobile-menu-btn" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-list">
+                <li><a href="#bienvenida" onclick="toggleMenu()">Inicio</a></li>
+                <li><a href="#suscripciones" onclick="toggleMenu()">Membresías</a></li>
+                <li><a href="#suplementos" onclick="toggleMenu()">Suplementos</a></li>
+                <li><a href="#ropa" onclick="toggleMenu()">Ropa</a></li>
+                <li><a href="#contacto" onclick="toggleMenu()">Contacto</a></li>
             </ul>
         </nav>
         <div class="header-actions">
@@ -554,7 +601,8 @@
         </div>
     </section>
 
-    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+    
     <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
             <h2>🛒 Tu Pedido</h2>
@@ -691,35 +739,46 @@
             updateCartUI();
         }
 
+        // --- LÓGICA DE NAVEGACIÓN ---
         function toggleCart() {
+            // Cerrar el menú móvil si se abre el carrito
+            document.getElementById('nav-list').classList.remove('active');
+            document.getElementById('mobile-menu-btn').classList.remove('active');
+            
             document.getElementById('cart-sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
         }
 
+        function toggleMenu() {
+            if (window.innerWidth <= 768) {
+                // Cerrar el carrito si se abre el menú
+                document.getElementById('cart-sidebar').classList.remove('active');
+                
+                document.getElementById('nav-list').classList.toggle('active');
+                document.getElementById('mobile-menu-btn').classList.toggle('active');
+                document.getElementById('overlay').classList.toggle('active');
+            }
+        }
+
+        function closeAllPanels() {
+            document.getElementById('nav-list').classList.remove('active');
+            document.getElementById('mobile-menu-btn').classList.remove('active');
+            document.getElementById('cart-sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
         function sendWhatsApp() {
             if (cart.length === 0) return alert("Carrito vacío");
-            
             const nombreCliente = prompt("Por favor, ingresa tu nombre para personalizar tu pedido:");
-            if (nombreCliente === null || nombreCliente.trim() === "") {
-                alert("Necesitamos tu nombre para procesar el pedido.");
-                return;
-            }
-
+            if (!nombreCliente) return alert("Necesitamos tu nombre.");
             const phone = "5214771234567"; 
-            let message = `🔥 *¡Qué tal Angel Gym!* 👋\n`;
-            message += `Mi nombre es *${nombreCliente.trim()}* y este es mi pedido:\n\n`;
-            message += `━━━━━━━━━━━━━━━━━━━\n`;
-            
+            let message = `🔥 *¡Qué tal Angel Gym!* 👋\nMi nombre es *${nombreCliente.trim()}* y este es mi pedido:\n\n━━━━━━━━━━━━━━━━━━━\n`;
             let total = 0;
             cart.forEach(item => {
                 message += `✅ *${item.quantity}x* ${item.name} _($${item.price * item.quantity})_\n`;
                 total += item.price * item.quantity;
             });
-            
-            message += `\n💰 *TOTAL A PAGAR: $${total}*`;
-            message += "\n━━━━━━━━━━━━━━━━━━━\n\n";
-            message += "❓ *¿A qué cuenta te puedo realizar el depósito o transferencia?*";
-            
+            message += `\n💰 *TOTAL A PAGAR: $${total}*\n━━━━━━━━━━━━━━━━━━━\n\n❓ *¿A qué cuenta te puedo realizar el depósito o transferencia?*`;
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
