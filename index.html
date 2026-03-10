@@ -121,7 +121,7 @@
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
-            z-index: 1002; /* MODIFICADO: Encima de todo */
+            z-index: 1002;
             padding: 10px;
         }
         .menu-toggle span {
@@ -395,7 +395,7 @@
             background-color: #0d0d0d;
             box-shadow: -5px 0 30px rgba(0,0,0,0.8);
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1005; /* MODIFICADO: Encima del menú móvil */
+            z-index: 1010;
             display: flex; flex-direction: column;
             border-left: 1px solid var(--border);
         }
@@ -496,7 +496,7 @@
                 padding: 100px 30px;
                 transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 border-right: 2px solid var(--primary);
-                z-index: 1001; /* MODIFICADO: Mayor que el overlay */
+                z-index: 1001;
                 gap: 25px;
             }
 
@@ -739,20 +739,16 @@
         }
 
         function toggleCart() {
-            // Cerrar menú móvil al abrir carrito
             document.getElementById('nav-list').classList.remove('active');
             document.getElementById('mobile-menu-btn').classList.remove('active');
-            
             document.getElementById('cart-sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        // --- LÓGICA DE MENÚ MÓVIL CORREGIDA ---
+        // --- LÓGICA DE NAVEGACIÓN CORREGIDA ---
         function toggleMenu() {
             if (window.innerWidth <= 768) {
-                // Cerrar carrito al abrir menú
                 document.getElementById('cart-sidebar').classList.remove('active');
-                
                 const navList = document.getElementById('nav-list');
                 const menuBtn = document.getElementById('mobile-menu-btn');
                 const overlay = document.getElementById('overlay');
@@ -761,12 +757,7 @@
                 menuBtn.classList.toggle('active');
                 overlay.classList.toggle('active');
 
-                // Bloquear scroll si el menú está abierto
-                if (navList.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = 'auto';
-                }
+                document.body.style.overflow = navList.classList.contains('active') ? 'hidden' : 'auto';
             }
         }
 
@@ -778,13 +769,29 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Escuchar clics en los enlaces del menú para cerrarlo tras navegar
+        // CONTROL DE CLIC EN ENLACES: Cierra y luego navega
         document.querySelectorAll('#nav-list a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.onclick = function(e) {
                 if (window.innerWidth <= 768) {
+                    const targetId = this.getAttribute('href');
+                    
+                    // 1. Cerramos visualmente el menú
                     closeAllPanels();
+                    
+                    // 2. Esperamos a que la transición termine para hacer el scroll
+                    setTimeout(() => {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            const offset = 80; // Altura del header sticky
+                            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            window.scrollTo({
+                                top: elementPosition - offset,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 350); 
                 }
-            });
+            };
         });
 
         function sendWhatsApp() {
