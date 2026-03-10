@@ -1,301 +1,748 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/najer/Downloads/pagina%20AN%20MARKETING.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mexapulques | El Néctar de los Dioses</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./Mexapulques _ El Néctar de los Dioses_files/css2" rel="stylesheet">
-    
+    <title>Angel Gym - El Mejor Gym de León</title>
     <style>
-        /* --- VARIABLES Y RESET --- */
         :root {
-            --color-primary: #2C5E4F; /* Verde Agave */
-            --color-secondary: #D4A373; /* Terracota */
-            --color-bg: #F9F7F2; /* Crema */
-            --color-text: #333333;
-            --color-white: #ffffff;
-            --color-whatsapp: #25D366;
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Lato', sans-serif;
+            --primary: #FF003C; 
+            --primary-hover: #cc0030;
+            --bg-color: #0a0a0a; 
+            --bg-accent: #111111;
+            --text-color: #ffffff; 
+            --card-bg: #141414; 
+            --old-price: #666666;
+            --border: #2a2a2a;
+            --success: #25D366;
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             scroll-behavior: smooth;
         }
 
-        h1, h2, h3 {
-            font-family: var(--font-heading);
-            color: var(--color-primary);
+        /* FONDO SECUNDARIO: Se visualiza al hacer scroll */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 50px;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.95)), 
+                              url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1920');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
         }
 
-        a {
-            text-decoration: none;
-            transition: 0.3s;
+        /* --- ANIMACIONES --- */
+        @keyframes float {
+            0% { transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(255,0,60,0.4)); }
+            50% { transform: translateY(-15px); filter: drop-shadow(0 20px 30px rgba(255,0,60,0.7)); }
+            100% { transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(255,0,60,0.4)); }
         }
 
-        ul {
-            list-style: none;
+        @keyframes revealText {
+            from { opacity: 0; transform: translateY(50px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
-        /* --- NAVEGACIÓN --- */
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(255, 0, 60, 0.3); }
+            50% { border-color: rgba(255, 0, 60, 0.8); box-shadow: 0 0 20px rgba(255, 0, 60, 0.2); }
+        }
+
+        @keyframes sheen {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 0, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); }
+        }
+
+        @keyframes bounce-cart {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.2); }
+        }
+
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .fade-in-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar */
         header {
-            background-color: var(--color-white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 10px 5%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            font-family: var(--font-heading);
-            color: var(--color-primary);
+        .logo img { 
+            height: 70px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(255,0,60,0.8));
+            transition: transform 0.3s;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            font-weight: 700;
-            font-size: 0.9rem;
+        .logo img:hover { transform: scale(1.1); }
+        
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 800;
             text-transform: uppercase;
+            font-size: 14px;
             letter-spacing: 1px;
-            color: var(--color-text);
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--primary); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 28px;
+            color: var(--primary);
+            transition: transform 0.2s;
+        }
+        .cart-icon.bounce { animation: bounce-cart 0.4s ease; }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: #ffffff;
+            color: var(--primary);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: 900;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        .nav-links a:hover {
-            color: var(--color-secondary);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://scontent.fcyw1-1.fna.fbcdn.net/v/t39.30808-6/641539382_2413996589091508_9157276278015800604_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2a1932&_nc_eui2=AeEv6UK0QkEMuUHmlUPEsvVvK9aVJFo9DIUr1pUkWj0Mhcj2yC2pLFCHYbqsZ3szzAax6HWvk7iPXdmgicBs4a-O&_nc_ohc=Oawo1mRDMMwQ7kNvwH7YPvH&_nc_oc=AdnEHRaGlt04wAohWylcRxaXOgn1H6R4WCqDpQQ-uNXNd7eEcMfOIZFfanV4Z3J3qG1-_xd14Fzof_DzO6LMsmuL&_nc_zt=23&_nc_ht=scontent.fcyw1-1.fna&_nc_gid=2XmPMiEnnINgDgxzoT-lJg&_nc_ss=8&oh=00_Afx0PTxrUL5B7j8j6sxF9DnmaPKEYKlCQQJj-q-aY9xJZA&oe=69AD52A4');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Foto de Fondo Principal */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(10,10,10,1)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920') center/cover;
+            padding: 80px 5%;
             text-align: center;
-            color: var(--color-white);
-            padding: 0 1rem;
+            min-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
         }
 
-        .hero-content p {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            font-weight: 300;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        .welcome-logo {
+            max-width: 200px;
+            margin-bottom: 30px;
+            animation: float 4s ease-in-out infinite;
+            z-index: 5;
         }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--color-secondary);
-            color: var(--color-white);
-            padding: 1rem 2rem;
-            border-radius: 50px;
+        .hero-section h1 {
+            color: #fff;
+            font-size: clamp(32px, 8vw, 64px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            animation: revealText 1s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+        }
+        .hero-section h1 span { 
+            color: var(--primary); 
+            text-shadow: 0 0 30px rgba(255,0,60,0.6); 
+        }
+
+        .hero-section .subtitle {
+            font-size: clamp(14px, 4vw, 24px);
             font-weight: 700;
+            color: #ccc;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: revealText 1s ease-out 0.4s forwards;
+        }
+
+        .hero-section .about-box {
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: revealText 1.2s ease-out 0.8s forwards, borderGlow 4s infinite;
+        }
+
+        .about-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-45deg);
+            animation: sheen 6s infinite;
+        }
+
+        .about-box h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 26px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .btn-whatsapp {
-            background-color: var(--color-whatsapp);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .about-box p {
+            line-height: 1.8;
+            color: #f0f0f0;
+            font-size: 18px;
+            font-weight: 400;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
+        .footer-info {
+            padding: 80px 5%;
+            background: rgba(5, 5, 5, 0.9); 
+            border-top: 2px solid var(--border);
         }
 
-        /* --- SECCIONES --- */
-        section {
-            padding: 5rem 2rem;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            position: relative;
+        .info-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .info-card:hover { transform: translateY(-10px); background: #1a1a1a; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .info-card h3 { color: #fff; margin-bottom: 20px; font-size: 22px; }
+        .info-card p, .info-card ul { color: #bbb; font-size: 16px; line-height: 1.8; list-style: none; }
+        .info-card strong { color: var(--primary); }
 
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background-color: var(--color-secondary);
-            margin: 1rem auto 0;
+        .stories-wrapper {
+            padding: 80px 5%;
+            display: flex;
+            gap: 80px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: transparent;
+            justify-content: center;
+            flex-wrap: wrap;
         }
+        
+        .story-container { text-align: center; cursor: pointer; transition: transform 0.2s; min-width: 200px; margin: 20px; }
+        .story-container:hover { transform: scale(1.1); }
+        
+        .story {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 6px solid var(--primary);
+            padding: 3px;
+            object-fit: cover;
+            box-shadow: 0 0 30px rgba(255,0,60,0.6);
+            margin-bottom: 8px;
+            background-color: #222;
+        }
+        .story-container span { font-size: 20px; font-weight: 800; color: #fff; text-transform: uppercase; margin-top: 15px; display: inline-block; }
 
-        /* --- MENÚ --- */
-        .menu-grid {
+        .category-title { padding: 50px 5% 20px; font-size: 36px; font-weight: 900; text-transform: uppercase; color: #fff;}
+        .category-title span { color: var(--primary); }
+        
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 30px;
+            padding: 0 5%;
+            justify-content: center;
         }
 
-        .menu-card {
-            background: var(--color-white);
-            padding: 3rem;
+        .product-card {
+            background-color: var(--card-bg);
             border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
         }
 
-        .menu-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255,0,60,0.15);
+            border-color: var(--primary);
         }
 
-        /* --- UBICACIÓN Y HORARIOS --- */
-        .info-container {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            padding: 4rem 2rem;
-            border-radius: 12px;
-            text-align: center;
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--primary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            animation: pulse-glow 2s infinite;
         }
 
-        .info-box h3 {
-            color: var(--color-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-        }
-
-        /* --- FOOTER --- */
-        footer {
+        .product-img { 
+            width: 100%; 
+            height: 300px; 
+            object-fit: cover; 
+            transition: transform 0.5s; 
             background-color: #1a1a1a;
-            color: #888;
-            text-align: center;
-            padding: 3rem 2rem;
+        }
+        
+        .product-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; z-index: 2; background: var(--card-bg); }
+        .product-title { font-size: 19px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        
+        .stars { color: var(--primary); font-size: 14px; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+        .reviews-count { color: #888; font-size: 12px; font-weight: normal; }
+
+        .price-container { margin-bottom: 15px; }
+        .old-price { text-decoration: line-through; color: var(--old-price); font-size: 16px; margin-right: 10px; }
+        .new-price { color: #fff; font-size: 32px; font-weight: 900; }
+
+        .stock-container { margin-bottom: 20px; }
+        .stock-text { font-size: 12px; color: #FF4444; font-weight: bold; margin-bottom: 5px; display: block; animation: pulse-text 2s infinite;}
+        .stock-bar { width: 100%; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+        .stock-fill { height: 100%; background: var(--primary); border-radius: 3px; }
+
+        @keyframes pulse-text { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        .add-to-cart-btn {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            margin-top: auto;
+            transition: all 0.3s;
+        }
+        .add-to-cart-btn:hover { 
+            background-color: var(--primary); 
+            color: #fff; 
+            box-shadow: 0 0 15px rgba(255,0,60,0.5); 
         }
 
-        .social-links {
-            margin-bottom: 1.5rem;
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: -450px;
+            width: 100%; max-width: 450px; height: 100vh;
+            background-color: #0d0d0d;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.8);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex; flex-direction: column;
+            border-left: 1px solid var(--border);
+        }
+        .cart-sidebar.active { right: 0; }
+        
+        .cart-header { padding: 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #000; }
+        .cart-header h2 { color: var(--primary); text-transform: uppercase; font-weight: 900; }
+        .close-cart { cursor: pointer; font-size: 32px; font-weight: bold; color: #fff; transition: transform 0.3s, color 0.3s;}
+        
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 25px; }
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); animation: revealText 0.3s ease-out;}
+        .cart-item img { width: 80px; height: 80px; border-radius: 6px; object-fit: cover; background-color: #222; }
+        .cart-item-info { flex-grow: 1; }
+        .cart-item-title { font-size: 15px; font-weight: bold; color: #fff; }
+        .cart-item-price { color: var(--primary); font-weight: 900; margin-top: 5px; font-size: 16px;}
+        .remove-btn { background:none; border:none; color: #666; cursor:pointer; font-weight:bold; font-size: 20px; transition: color 0.2s;}
+        
+        .cart-footer { padding: 25px; border-top: 1px solid var(--border); background: #050505; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 24px; font-weight: 900; margin-bottom: 25px; color: #fff; }
+        
+        .cart-footer .whatsapp-btn {
+            background-color: var(--success); 
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: all 0.3s;
+            animation: pulse-glow-green 2s infinite;
         }
 
-        .social-links a {
-            margin: 0 15px;
-            font-size: 1.1rem;
-            color: var(--color-white);
-            font-weight: bold;
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); opacity: 0; visibility: hidden;
+            transition: 0.4s; z-index: 999; backdrop-filter: blur(5px);
         }
+        .overlay.active { opacity: 1; visibility: visible; }
 
-        .social-links a:hover {
-            color: var(--color-secondary);
+        .sales-notification {
+            position: fixed;
+            bottom: -100px;
+            left: 20px;
+            background: rgba(20, 20, 20, 0.95);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 900;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .sales-notification.show { bottom: 20px; }
+        .sales-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background-color: #222;}
+        .sales-text p { color: #fff; font-size: 13px; margin: 0; }
+        .sales-text small { color: #888; font-size: 11px; }
+
+        .whatsapp-floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 998; 
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            animation: pulse-glow-green 2s infinite;
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero-content p { font-size: 1.4rem; }
-            .info-container { padding: 2rem 1rem; }
+            nav ul { display: none; }
+            .hero-section h1 { font-size: 38px; }
+            .hero-section .about-box { padding: 25px; }
+            .cart-sidebar { width: 100%; max-width: 100%; right: -100%; }
+            .products-grid { grid-template-columns: 1fr; padding: 0 15px; }
         }
     </style>
 </head>
 <body>
 
+    <a href="https://wa.me/5214771234567?text=Hola%20Angel%20Gym,%20necesito%20informes." class="whatsapp-floating-btn" target="_blank">
+        <svg width="35" height="35" viewBox="0 0 448 512" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L3 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-117zm-157 338.7h-.1c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-11.4-5.7-19.1-9.4-31.1-19.6-9.3-8.3-15.6-18.6-17.4-21.8-1.9-3.2-.2-5 1.2-6.3 5.2-4.3 11-11.2 12.5-14.5 1.9-3.3.9-6.1-.5-8.9-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+    </a>
+
     <header>
-        <div class="nav-container">
-            <div class="logo">Mexapulques</div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="file:///C:/Users/najer/Downloads/pagina%20AN%20MARKETING.html#inicio">Inicio</a></li>
-                    <li><a href="file:///C:/Users/najer/Downloads/pagina%20AN%20MARKETING.html#menu">Sabores</a></li>
-                    <li><a href="file:///C:/Users/najer/Downloads/pagina%20AN%20MARKETING.html#ubicacion">Agendar</a></li>
-                </ul>
-            </nav>
+        <div class="logo">
+            <img src="https://lh3.googleusercontent.com/d/12WKENsjTYNb09wddqd7Agt_yU7NbgYMu" alt="Angel Gym Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#bienvenida">Inicio</a></li>
+                <li><a href="#suscripciones">Membresías</a></li>
+                <li><a href="#suplementos">Suplementos</a></li>
+                <li><a href="#ropa">Ropa</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <div class="cart-icon" id="cart-icon-btn" onclick="toggleCart()">
+                🛒 <span class="cart-badge" id="cart-count">0</span>
+            </div>
         </div>
     </header>
 
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <p>El sabor auténtico de la tradición en cada trago.</p>
-            <a href="https://wa.me/524778579202" class="btn btn-whatsapp">
-                <span>🟢</span> Agendar Entrega
-            </a>
+    <section class="hero-section" id="bienvenida">
+        <img src="https://lh3.googleusercontent.com/d/12WKENsjTYNb09wddqd7Agt_yU7NbgYMu" alt="Logo Angel Gym" class="welcome-logo">
+        <h1>BIENVENIDO/@ A <span>ANGEL GYM</span></h1>
+        <div class="subtitle">La disciplina es el puente entre metas y logros</div>
+        
+        <div class="about-box">
+            <h2>¿Quiénes Somos?</h2>
+            <p>
+                Somos más que un centro de entrenamiento; somos una comunidad apasionada por la superación personal en <strong>León, Guanajuato</strong>. En <strong>Angel Gym</strong> fusionamos instalaciones de primer nivel con un ambiente profesional para ayudarte a esculpir tu mejor versión.
+            </p>
         </div>
     </section>
 
-    <section id="menu">
-        <h2 class="section-title">Nuestros Sabores</h2>
-        <div class="menu-grid">
-            <div class="menu-card">
-                <div class="menu-icon">🍶</div>
-                <h3>Natural</h3>
-                <p>Pulque blanco de la mejor calidad, fresco y extraído directamente del corazón del agave.</p>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">🍓</div>
-                <h3>Curados de Sabor</h3>
-                <p>Nuestra especialidad mezclada con frutas de temporada: Fresa, Mamey, Guayaba y más.</p>
-            </div>
-            <div class="menu-card">
-                <div class="menu-icon">🍯</div>
-                <h3>Aguamiel</h3>
-                <p>El elixir más dulce y puro, recolectado diariamente. Saludable y tradicional.</p>
-            </div>
+    <div class="stories-wrapper">
+        <div class="story-container" onclick="document.getElementById('suscripciones').scrollIntoView();">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200" alt="Instalaciones" class="story">
+            <br><span>Membresías</span>
         </div>
-    </section>
+        <div class="story-container" onclick="document.getElementById('suplementos').scrollIntoView();">
+            <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=200" alt="Suples" class="story">
+            <br><span>Suplementos</span>
+        </div>
+        <div class="story-container" onclick="document.getElementById('ropa').scrollIntoView();">
+            <img src="https://images.pexels.com/photos/6303252/pexels-photo-6303252.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Apparel" class="story">
+            <br><span>Ropa</span>
+        </div>
+    </div>
 
-    <section id="ubicacion">
-        <div class="info-container">
-            <div class="info-box">
-                <h3>Horario de Atención</h3>
-                <p style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem;">Horario 24/7</p>
-                <p>Estamos disponibles en todo momento para recibir tus pedidos.</p>
-                <br>
-                <p><strong>Para agendar tu entrega, haz clic en el botón de abajo:</strong></p>
-                <br>
-                <a href="https://wa.me/524778579202" class="btn" style="background-color: var(--color-secondary);">
-                    📱 Contactar Ahora
+    <div id="tienda-container"></div>
+
+    <section class="footer-info fade-in-on-scroll" id="contacto">
+        <h2 class="category-title" style="text-align: center; padding-top: 0;"> <span>Contactanos</span></h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🕒 Horarios de Atención</h3>
+                <ul>
+                    <li><strong>Lunes a Viernes:</strong> 6:00 AM - 10:15 PM</li>
+                    <li><strong>Sábados:</strong> 7:00 AM - 2:00 PM</li>
+                    <li><strong>Domingos:</strong> Cerrado</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>📍 Nuestra Ubicación</h3>
+                <p>
+                    <strong>Blvd. Hermenegildo Bustos 2101</strong><br>
+                    Colonia Hacienda Echeveste<br>
+                    León, Guanajuato, México.
+                </p>
+                <a href="https://www.facebook.com/share/1AM7FiAkP3/?mibextid=wwXIfr" target="_blank" style="display:inline-block; margin-top:15px; color:var(--primary); font-weight:bold; text-decoration:none; border-bottom:1px solid var(--primary);">
+                    Siguenos en Facebook →
                 </a>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://www.facebook.com/search/top?q=mexapulques" target="_blank">Facebook</a>
-            <a href="file:///C:/Users/najer/Downloads/pagina%20AN%20MARKETING.html#">Instagram</a>
-            <a href="https://wa.me/524778579202">WhatsApp</a>
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>🛒 Tu Pedido</h2>
+            <div class="close-cart" onclick="toggleCart()">×</div>
         </div>
-        <p>© 2026 Mexapulques. Todos los derechos reservados.</p>
-    </footer>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>TOTAL:</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="whatsapp-btn" onclick="sendWhatsApp()">
+                Pagar vía WhatsApp
+            </button>
+        </div>
+    </div>
 
+    <div class="sales-notification" id="sales-notification">
+        <img src="" id="notification-img" class="sales-img" alt="Producto">
+        <div class="sales-text">
+            <p><strong id="notification-name"></strong> acaba de comprar</p>
+            <p style="color: var(--primary); font-weight:bold;" id="notification-product"></p>
+            <small id="notification-time"></small>
+        </div>
+    </div>
 
-</body></html>
+    <script>
+        const categories = [
+            {
+                id: "suscripciones",
+                name: "Membresías Gym",
+                products: [
+                    { id: 101, name: "Suscripción Mensual", price: 400, old_price: 500, img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", badge: "Mejor Valor", reviews: 543, stock: 85, stockMsg: "¡Últimos cupos!" },
+                    { id: 102, name: "Suscripción Semanal", price: 180, old_price: 250, img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600", badge: "Flexible", reviews: 128, stock: 40, stockMsg: "Cupo limitado" },
+                    { id: 103, name: "Pase de Visita (1 Día)", price: 50, old_price: 70, img: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600", badge: "Prueba", reviews: 89, stock: 60, stockMsg: "Ven a probar" }
+                ]
+            },
+            {
+                id: "suplementos",
+                name: "Suplementos & Preentrenos",
+                products: [
+                    { id: 201, name: "Preentreno Psychotic", price: 850, old_price: 999, img: "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?q=80&w=600", badge: "Extremo 🔥", reviews: 342, stock: 12, stockMsg: "¡Pocas unidades!" },
+                    { id: 202, name: "Proteína Gold Standard", price: 1650, old_price: 1850, img: "https://images.unsplash.com/photo-1579722820308-d74e571900a9?q=80&w=600", badge: "Top Ventas", reviews: 856, stock: 8, stockMsg: "Alta demanda" },
+                    { id: 203, name: "Creatina Monohidratada", price: 450, old_price: 550, img: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=600", badge: "Esencial", reviews: 412, stock: 25, stockMsg: "Stock limitado" }
+                ]
+            },
+            {
+                id: "ropa",
+                name: "Ropa Deportiva Oficial",
+                products: [
+                    { id: 301, name: "Playera Oversize Blanca", price: 350, old_price: 450, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=600", badge: "Nuevo", reviews: 67, stock: 15, stockMsg: "Edición Limitada" },
+                    { id: 302, name: "Shorts Entrenamiento", price: 299, old_price: 400, img: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=600", badge: "Comodidad", reviews: 114, stock: 30, stockMsg: "Aprovecha" },
+                    { id: 303, name: "Pants Jogger Compresión", price: 499, old_price: 650, img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600", badge: "Estilo", reviews: 92, stock: 5, stockMsg: "¡Últimas piezas!" }
+                ]
+            }
+        ];
+
+        let cart = [];
+        let allProductsFlat = categories.flatMap(cat => cat.products);
+
+        function renderStore() {
+            const container = document.getElementById('tienda-container');
+            container.innerHTML = '';
+            categories.forEach(category => {
+                let sectionHTML = `
+                    <div id="${category.id}" class="fade-in-on-scroll">
+                        <h2 class="category-title"><span>|</span> ${category.name}</h2>
+                        <div class="products-grid">
+                `;
+                category.products.forEach(prod => {
+                    sectionHTML += `
+                        <div class="product-card fade-in-on-scroll">
+                            <div class="badge">${prod.badge}</div>
+                            <img src="${prod.img}" alt="${prod.name}" class="product-img" loading="lazy">
+                            <div class="product-info">
+                                <h3 class="product-title">${prod.name}</h3>
+                                <div class="stars">★★★★★ <span class="reviews-count">(${prod.reviews})</span></div>
+                                <div class="price-container">
+                                    <span class="old-price">$${prod.old_price}</span>
+                                    <span class="new-price">$${prod.price}</span>
+                                </div>
+                                <div class="stock-container">
+                                    <span class="stock-text">${prod.stockMsg}</span>
+                                    <div class="stock-bar"><div class="stock-fill" style="width: ${prod.stock}%"></div></div>
+                                </div>
+                                <button class="add-to-cart-btn" onclick="addToCart(${prod.id})">Agregar al Pedido</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                sectionHTML += `</div></div>`;
+                container.innerHTML += sectionHTML;
+            });
+        }
+
+        function addToCart(id) {
+            const product = allProductsFlat.find(p => p.id === id);
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) { existingItem.quantity += 1; } 
+            else { cart.push({ ...product, quantity: 1 }); }
+            updateCartUI();
+            const cartIcon = document.getElementById('cart-icon-btn');
+            cartIcon.classList.remove('bounce');
+            void cartIcon.offsetWidth; 
+            cartIcon.classList.add('bounce');
+            toggleCart();
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotalPrice = document.getElementById('cart-total-price');
+            cartItemsContainer.innerHTML = '';
+            let total = 0; let count = 0;
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity; count += item.quantity;
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.quantity}x $${item.price}</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart(${index})">✕</button>
+                    </div>
+                `;
+            });
+            cartCount.innerText = count;
+            cartTotalPrice.innerText = `$${total}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function sendWhatsApp() {
+            if (cart.length === 0) return alert("Carrito vacío");
+            
+            const nombreCliente = prompt("Por favor, ingresa tu nombre para personalizar tu pedido:");
+            if (nombreCliente === null || nombreCliente.trim() === "") {
+                alert("Necesitamos tu nombre para procesar el pedido.");
+                return;
+            }
+
+            const phone = "5214771234567"; 
+            let message = `🔥 *¡Qué tal Angel Gym!* 👋\n`;
+            message += `Mi nombre es *${nombreCliente.trim()}* y este es mi pedido:\n\n`;
+            message += `━━━━━━━━━━━━━━━━━━━\n`;
+            
+            let total = 0;
+            cart.forEach(item => {
+                message += `✅ *${item.quantity}x* ${item.name} _($${item.price * item.quantity})_\n`;
+                total += item.price * item.quantity;
+            });
+            
+            message += `\n💰 *TOTAL A PAGAR: $${total}*`;
+            message += "\n━━━━━━━━━━━━━━━━━━━\n\n";
+            message += "❓ *¿A qué cuenta te puedo realizar el depósito o transferencia?*";
+            
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+
+        const fakeNames = ["Carlos G.", "Ana M.", "Juan P.", "Luis R.", "Sofia T."];
+        function showFakeNotification() {
+            const randomProduct = allProductsFlat[Math.floor(Math.random() * allProductsFlat.length)];
+            const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+            document.getElementById('notification-img').src = randomProduct.img;
+            document.getElementById('notification-name').innerText = randomName;
+            document.getElementById('notification-product').innerText = randomProduct.name;
+            document.getElementById('notification-time').innerText = "Hace un momento";
+            const notif = document.getElementById('sales-notification');
+            notif.classList.add('show');
+            setTimeout(() => { notif.classList.remove('show'); }, 4000);
+        }
+
+        renderStore();
+        document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+        setInterval(showFakeNotification, 15000);
+    </script>
+</body>
+</html>
