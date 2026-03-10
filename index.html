@@ -66,6 +66,12 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); }
         }
 
+        @keyframes pulse-glow-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
         @keyframes bounce-cart {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-5px) scale(1.2); }
@@ -81,63 +87,61 @@
             transform: translateY(0);
         }
 
-        /* Navbar */
+        /* --- NAVBAR CORREGIDO (DISEÑO DIRECTO) --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 5%;
+            padding: 15px 5%;
             background-color: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 2px solid var(--primary);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .logo img { 
-            height: 70px;
+            height: 60px;
             object-fit: contain;
             filter: drop-shadow(0 0 8px rgba(255,0,60,0.8));
             transition: transform 0.3s;
         }
         .logo img:hover { transform: scale(1.1); }
         
-        nav ul { display: flex; list-style: none; gap: 20px; }
+        /* Contenedor de navegación alineado a la derecha */
+        nav {
+            margin-left: auto;
+            margin-right: 30px;
+        }
+
+        nav ul { 
+            display: flex; 
+            list-style: none; 
+            gap: 25px; 
+        }
+
         nav a {
             text-decoration: none;
             color: var(--text-color);
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 1px;
+            font-size: 13px;
+            letter-spacing: 1.5px;
             transition: color 0.3s;
+            white-space: nowrap;
         }
         nav a:hover { color: var(--primary); }
 
-        /* Botón de Menú Móvil (Hamburguesa) */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1002;
-            padding: 10px;
-        }
-        .menu-toggle span {
-            width: 30px;
-            height: 3px;
-            background-color: var(--primary);
-            border-radius: 2px;
-            transition: 0.3s;
-        }
+        /* Botón de Menú Móvil - ELIMINADO de la vista */
+        .menu-toggle { display: none; }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .header-actions { display: flex; align-items: center; }
         
         .cart-icon {
             position: relative;
             cursor: pointer;
-            font-size: 28px;
+            font-size: 24px;
             color: var(--primary);
             transition: transform 0.2s;
         }
@@ -151,7 +155,7 @@
             color: var(--primary);
             border-radius: 50%;
             padding: 2px 6px;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 900;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
@@ -395,7 +399,7 @@
             background-color: #0d0d0d;
             box-shadow: -5px 0 30px rgba(0,0,0,0.8);
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1010;
+            z-index: 2000;
             display: flex; flex-direction: column;
             border-left: 1px solid var(--border);
         }
@@ -480,37 +484,40 @@
             animation: pulse-glow-green 2s infinite;
         }
 
-        /* --- MEDIA QUERIES --- */
+        /* --- MEDIA QUERIES PARA DISEÑO DIRECTO --- */
         @media (max-width: 768px) {
-            .menu-toggle { display: flex; }
-            
-            nav ul {
-                display: flex;
-                flex-direction: column;
-                position: fixed;
-                top: 0;
-                left: -100%;
-                width: 280px;
-                height: 100vh;
-                background: #0a0a0a;
-                padding: 100px 30px;
-                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                border-right: 2px solid var(--primary);
-                z-index: 1001;
-                gap: 25px;
+            header {
+                padding: 10px 4%;
+                flex-wrap: nowrap;
             }
 
-            nav ul.active { left: 0; }
-            nav a { font-size: 18px; display: block; }
+            .logo img { height: 45px; }
 
-            .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-            .menu-toggle.active span:nth-child(2) { opacity: 0; }
-            .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            /* Menú horizontal scrolleable en móvil para que sea directo */
+            nav {
+                margin-right: 15px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            nav::-webkit-scrollbar { display: none; }
+
+            nav ul {
+                gap: 15px;
+                padding: 5px 0;
+            }
+
+            nav a {
+                font-size: 11px;
+                letter-spacing: 0.5px;
+            }
 
             .hero-section h1 { font-size: 38px; }
             .hero-section .about-box { padding: 25px; }
             .cart-sidebar { width: 100%; max-width: 100%; right: -100%; }
             .products-grid { grid-template-columns: 1fr; padding: 0 15px; }
+            
+            .cart-icon { font-size: 22px; }
         }
     </style>
 </head>
@@ -525,11 +532,6 @@
             <img src="https://lh3.googleusercontent.com/d/12WKENsjTYNb09wddqd7Agt_yU7NbgYMu" alt="Angel Gym Logo">
         </div>
         <nav>
-            <div class="menu-toggle" id="mobile-menu-btn" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
             <ul id="nav-list">
                 <li><a href="#bienvenida">Inicio</a></li>
                 <li><a href="#suscripciones">Membresías</a></li>
@@ -559,15 +561,15 @@
     </section>
 
     <div class="stories-wrapper">
-        <div class="story-container" onclick="document.getElementById('suscripciones').scrollIntoView();">
+        <div class="story-container" onclick="scrollToSection('suscripciones')">
             <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200" alt="Instalaciones" class="story">
             <br><span>Membresías</span>
         </div>
-        <div class="story-container" onclick="document.getElementById('suplementos').scrollIntoView();">
+        <div class="story-container" onclick="scrollToSection('suplementos')">
             <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=200" alt="Suples" class="story">
             <br><span>Suplementos</span>
         </div>
-        <div class="story-container" onclick="document.getElementById('ropa').scrollIntoView();">
+        <div class="story-container" onclick="scrollToSection('ropa')">
             <img src="https://images.pexels.com/photos/6303252/pexels-photo-6303252.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Apparel" class="story">
             <br><span>Ropa</span>
         </div>
@@ -695,8 +697,48 @@
                 sectionHTML += `</div></div>`;
                 container.innerHTML += sectionHTML;
             });
+            document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
         }
 
+        /* --- NAVEGACIÓN CORREGIDA (SOLO CARRITO Y SCROLL) --- */
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('overlay');
+            cartSidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeAllPanels() {
+            document.getElementById('cart-sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function scrollToSection(id) {
+            closeAllPanels();
+            setTimeout(() => {
+                const target = document.getElementById(id);
+                if (target) {
+                    const offset = 80;
+                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({
+                        top: elementPosition - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
+        }
+
+        document.querySelectorAll('#nav-list a').forEach(link => {
+            link.onclick = function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            };
+        });
+
+        /* --- LÓGICA DEL CARRITO --- */
         function addToCart(id) {
             const product = allProductsFlat.find(p => p.id === id);
             const existingItem = cart.find(item => item.id === id);
@@ -707,7 +749,9 @@
             cartIcon.classList.remove('bounce');
             void cartIcon.offsetWidth; 
             cartIcon.classList.add('bounce');
-            toggleCart();
+            if(!document.getElementById('cart-sidebar').classList.contains('active')) {
+                toggleCart();
+            }
         }
 
         function updateCartUI() {
@@ -737,62 +781,6 @@
             cart.splice(index, 1);
             updateCartUI();
         }
-
-        function toggleCart() {
-            document.getElementById('nav-list').classList.remove('active');
-            document.getElementById('mobile-menu-btn').classList.remove('active');
-            document.getElementById('cart-sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-
-        // --- LÓGICA DE NAVEGACIÓN CORREGIDA ---
-        function toggleMenu() {
-            if (window.innerWidth <= 768) {
-                document.getElementById('cart-sidebar').classList.remove('active');
-                const navList = document.getElementById('nav-list');
-                const menuBtn = document.getElementById('mobile-menu-btn');
-                const overlay = document.getElementById('overlay');
-
-                navList.classList.toggle('active');
-                menuBtn.classList.toggle('active');
-                overlay.classList.toggle('active');
-
-                document.body.style.overflow = navList.classList.contains('active') ? 'hidden' : 'auto';
-            }
-        }
-
-        function closeAllPanels() {
-            document.getElementById('nav-list').classList.remove('active');
-            document.getElementById('mobile-menu-btn').classList.remove('active');
-            document.getElementById('cart-sidebar').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // CONTROL DE CLIC EN ENLACES: Cierra y luego navega
-        document.querySelectorAll('#nav-list a').forEach(link => {
-            link.onclick = function(e) {
-                if (window.innerWidth <= 768) {
-                    const targetId = this.getAttribute('href');
-                    
-                    // 1. Cerramos visualmente el menú
-                    closeAllPanels();
-                    
-                    // 2. Esperamos a que la transición termine para hacer el scroll
-                    setTimeout(() => {
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            const offset = 80; // Altura del header sticky
-                            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({
-                                top: elementPosition - offset,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }, 350); 
-                }
-            };
-        });
 
         function sendWhatsApp() {
             if (cart.length === 0) return alert("Carrito vacío");
@@ -828,7 +816,6 @@
         }
 
         renderStore();
-        document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
         setInterval(showFakeNotification, 15000);
     </script>
 </body>
