@@ -121,7 +121,7 @@
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
-            z-index: 1001;
+            z-index: 1002; /* MODIFICADO: Encima de todo */
             padding: 10px;
         }
         .menu-toggle span {
@@ -156,7 +156,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* Foto de Fondo Principal */
+        /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(0,0,0,0.4), rgba(10,10,10,1)), 
                         url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920') center/cover;
@@ -395,7 +395,7 @@
             background-color: #0d0d0d;
             box-shadow: -5px 0 30px rgba(0,0,0,0.8);
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
+            z-index: 1005; /* MODIFICADO: Encima del menú móvil */
             display: flex; flex-direction: column;
             border-left: 1px solid var(--border);
         }
@@ -480,7 +480,7 @@
             animation: pulse-glow-green 2s infinite;
         }
 
-        /* --- MEDIA QUERIES MEJORADOS (MÓVIL DINÁMICO) --- */
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
             .menu-toggle { display: flex; }
             
@@ -496,14 +496,13 @@
                 padding: 100px 30px;
                 transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 border-right: 2px solid var(--primary);
-                z-index: 1000;
+                z-index: 1001; /* MODIFICADO: Mayor que el overlay */
                 gap: 25px;
             }
 
             nav ul.active { left: 0; }
             nav a { font-size: 18px; display: block; }
 
-            /* Animación Hamburguesa */
             .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -532,11 +531,11 @@
                 <span></span>
             </div>
             <ul id="nav-list">
-                <li><a href="#bienvenida" onclick="toggleMenu()">Inicio</a></li>
-                <li><a href="#suscripciones" onclick="toggleMenu()">Membresías</a></li>
-                <li><a href="#suplementos" onclick="toggleMenu()">Suplementos</a></li>
-                <li><a href="#ropa" onclick="toggleMenu()">Ropa</a></li>
-                <li><a href="#contacto" onclick="toggleMenu()">Contacto</a></li>
+                <li><a href="#bienvenida">Inicio</a></li>
+                <li><a href="#suscripciones">Membresías</a></li>
+                <li><a href="#suplementos">Suplementos</a></li>
+                <li><a href="#ropa">Ropa</a></li>
+                <li><a href="#contacto">Contacto</a></li>
             </ul>
         </nav>
         <div class="header-actions">
@@ -739,9 +738,8 @@
             updateCartUI();
         }
 
-        // --- LÓGICA DE NAVEGACIÓN ---
         function toggleCart() {
-            // Cerrar el menú móvil si se abre el carrito
+            // Cerrar menú móvil al abrir carrito
             document.getElementById('nav-list').classList.remove('active');
             document.getElementById('mobile-menu-btn').classList.remove('active');
             
@@ -749,14 +747,26 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
+        // --- LÓGICA DE MENÚ MÓVIL CORREGIDA ---
         function toggleMenu() {
             if (window.innerWidth <= 768) {
-                // Cerrar el carrito si se abre el menú
+                // Cerrar carrito al abrir menú
                 document.getElementById('cart-sidebar').classList.remove('active');
                 
-                document.getElementById('nav-list').classList.toggle('active');
-                document.getElementById('mobile-menu-btn').classList.toggle('active');
-                document.getElementById('overlay').classList.toggle('active');
+                const navList = document.getElementById('nav-list');
+                const menuBtn = document.getElementById('mobile-menu-btn');
+                const overlay = document.getElementById('overlay');
+
+                navList.classList.toggle('active');
+                menuBtn.classList.toggle('active');
+                overlay.classList.toggle('active');
+
+                // Bloquear scroll si el menú está abierto
+                if (navList.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
             }
         }
 
@@ -765,7 +775,17 @@
             document.getElementById('mobile-menu-btn').classList.remove('active');
             document.getElementById('cart-sidebar').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
+
+        // Escuchar clics en los enlaces del menú para cerrarlo tras navegar
+        document.querySelectorAll('#nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    closeAllPanels();
+                }
+            });
+        });
 
         function sendWhatsApp() {
             if (cart.length === 0) return alert("Carrito vacío");
@@ -790,7 +810,8 @@
         function showFakeNotification() {
             const randomProduct = allProductsFlat[Math.floor(Math.random() * allProductsFlat.length)];
             const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-            document.getElementById('notification-img').src = randomProduct.img;
+            const imgEl = document.getElementById('notification-img');
+            if(imgEl) imgEl.src = randomProduct.img;
             document.getElementById('notification-name').innerText = randomName;
             document.getElementById('notification-product').innerText = randomProduct.name;
             document.getElementById('notification-time').innerText = "Hace un momento";
